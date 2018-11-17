@@ -6,19 +6,19 @@
       </span>
       <span>外卖</span>
     </a>
-    <a href="javascript:;" class="guide_item" :class="{on:$route.path==='/order'}"  @click="goto('/order')">
+    <a href="javascript:;" class="guide_item" :class="{on:$route.path==='/search'}"  @click="goto('/search')">
       <span class="item_icon">
         <i class="iconfont icon-search"></i>
       </span>
       <span>搜索</span>
     </a>
-    <a href="javascript:;" class="guide_item" :class="{on:$route.path==='/profile'}" @click="goto('/profile')">
+    <a href="javascript:;" class="guide_item" :class="{on:$route.path==='/order'}" @click="goto('/order')">
       <span class="item_icon">
         <i class="iconfont icon-dingdan"></i>
       </span>
       <span>订单</span>
     </a>
-    <a href="javascript:;" class="guide_item" :class="{on:$route.path==='/search'}" @click="goto('/search')">
+    <a href="javascript:;" class="guide_item" :class="{on:$route.path==='/profile'}" @click="goto('/profile')">
       <span class="item_icon">
         <i class="iconfont icon-geren"></i>
       </span>

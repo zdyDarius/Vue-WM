@@ -101,8 +101,8 @@
 </script>
 
 
-<style  lang="stylus" rel="stylesheet/stylus" scoped>
-  @import "../../common/mixins.styl"
+<style lang="stylus" rel="stylesheet/stylus" scoped>
+  @import "../../common/stylus/mixins.styl"
   .profile //我的
     width 100%
     .profile-number

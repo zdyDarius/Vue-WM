@@ -4,16 +4,20 @@
       <div class="login_header">
         <h2 class="login_logo">硅谷外卖</h2>
         <div class="login_header_title">
-          <a href="javascript:;" class="on">短信登录</a>
-          <a href="javascript:;">密码登录</a>
+          <a href="javascript:;" :class="{on:loginway}" @click="loginway=true">短信登录</a>
+          <a href="javascript:;" :class="{on:!loginway}"  @click="loginway=false">密码登录</a>
         </div>
       </div>
       <div class="login_content">
         <form>
-          <div class="on">
+          <div :class="{on:loginway}">
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号">
-              <button disabled="disabled" class="get_verification">获取验证码</button>
+              <input type="tel" maxlength="11" placeholder="手机号" v-model="phoneunmber">
+              <button :disabled="!rightPhone||computeTime>0" class="get_verification"
+                      :class="{right_phione_number:rightPhone}"
+                      @click.prevent="sendCode">
+                {{computeTime? `已发送(${computeTime}s)` :'获取验证码'}}
+              </button>
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -23,16 +27,16 @@
               <a href="javascript:;">《用户服务协议》</a>
             </section>
           </div>
-          <div>
+          <div :class="{on:!loginway}">
             <section>
               <section class="login_message">
                 <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="密码">
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
+                <input :type="isShowpwd?'text':'password'" maxlength="8" placeholder="密码">
+                <div class="switch_button " :class="isShowpwd? 'on' :'off'" @click="isShowpwd=!isShowpwd">
+                  <div class="switch_circle" :class="{right:isShowpwd}" ></div>
+                  <span class="switch_text">{{isShowpwd?'abc':' '}}</span>
                 </div>
               </section>
               <section class="login_message">
@@ -56,14 +60,36 @@
   export default {
 
     data () {
-      return {}
+      return {
+        loginway:true,//true:登入 false:账号登入
+        phoneunmber:'',
+        computeTime: 0,
+        isShowpwd:false,
+      }
+
+    },
+    methods:{
+      sendCode(){
+        this.computeTime=30
+        const timer=setInterval(()=>{
+          this.computeTime--
+          if(this.computeTime<=0){
+            this.computeTime=0
+            clearInterval(timer)
+          }
+        },1000)
+      }
+    },
+    computed:{
+        rightPhone(){
+          return /^1\d{10}$/.test(this.phoneunmber)
+        }
     }
   }
 </script>
 
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  @import "../../common/mixins.styl"
   .loginContainer
     width 100%
     height 100%
@@ -123,6 +149,8 @@
                 color #ccc
                 font-size 14px
                 background transparent
+              .right_phione_number
+                color #000000
             .login_verification
               position relative
               margin-top 16px
@@ -162,6 +190,8 @@
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                    transform translateX(27px)
             .login_hint
               margin-top 12px
               color #999

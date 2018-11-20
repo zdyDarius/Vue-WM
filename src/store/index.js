@@ -2,4 +2,17 @@
  * Created by zdy on 2018/11/19.
  */
 import Vue from 'vue'
-import Vux from 'vuex'
+import Vuex from 'vuex'
+import actions from './actions'
+import getters from './getters'
+import state from './state'
+import  mutations from './mutations'
+
+
+Vue.use(Vuex)
+export default new Vuex.Store({
+  actions,
+  getters,
+  state,
+  mutations
+})

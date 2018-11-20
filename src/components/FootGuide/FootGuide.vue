@@ -40,7 +40,7 @@
 
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  @import "../../common/mixins.styl"
+  @import "../../common/stylus/mixins.styl"
   .footer_guide  //footer
     top-border-1px(#e4e4e4)
     position fixed

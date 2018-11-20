@@ -41,12 +41,12 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="http://localhost:5000/captcha"
+                <img ref="captcha" class="get_verification" src="http://localhost:5000/captcha"
                      alt="captcha" @click="changecaptcha">
               </section>
             </section>
           </div>
-          <button class="login_submit" @click="login">登录</button>
+          <button class="login_submit" @click.prevent="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -93,12 +93,40 @@
          MessageBox.alert(result.msg,'提示')
        }
       },
-     changecaptcha(ev){
-        ev.target.src='http://localhost:5000/captcha?'+Date.now()
-      },
+     changecaptcha(){
+        this.$refs.captcha.src ='http://localhost:5000/captcha?timer='+Date.now()
+     },
      async login(){
+       let result=null
+       const {name,pwd,captcha,phoneunmber,code,loginway}=this
         if(loginway){
- 
+          if(!this.rightPhone){
+            return MessageBox.alert('必须指定正确的手机号')
+          }else if(!/^\d{6}$/.test(code)){
+            return MessageBox.alert('必须指定正确的验证码')
+          }
+          result= await reqphonelogin(phoneunmber,code)
+        }else{
+          if(!name) {
+            return MessageBox.alert('必须指定用户名')
+          } else if(!pwd) {
+            return MessageBox.alert('必须指定密码')
+          } else if(!captcha) {
+            return MessageBox.alert('必须指定验证码')
+          }
+          result=await reqpwdlogin(name,pwd,captcha)
+          if(result.code!==0){
+            alert(9999)
+            this.changecaptcha()
+          }
+        }
+        if(result.code===0){//成功
+          //保存获取的信息
+            this.$store.dispatch('saveUser',result.data)
+          //跳转到个人中心页
+            this.$router.replace('/profile')
+        }else { // 失败
+          MessageBox.alert('登陆失败')
         }
      }
     },

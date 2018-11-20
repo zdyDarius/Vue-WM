@@ -7,7 +7,7 @@
          <i class="iconfont icon-sousuo"></i>
        </span>
       <span class="header_login" slot="right" @click="$router.push('/login')">
-        <span class="header_login_text">登录|注册</span>
+        <span class="header_login_text" v-if="!user._id">登录|注册</span>
       </span>
     </TopHeader>
     <!--首页导航-->
@@ -66,7 +66,7 @@
       }
     },
     computed:{
-      ...mapState(['categorys','address']),
+      ...mapState(['categorys','address','user']),
       foodArr(){
          const arr=[]
          let  result=[]

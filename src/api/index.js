@@ -18,3 +18,19 @@ export  const reqphonelogin=(phone,code)=>ajax('/api/login_sms',{phone,code},'PO
 export const reqpwdlogin=(name,pwd,captcha)=>ajax('/api/login_pwd',{name,pwd,captcha},'POST')
 // 获取当前用户信息
 export const reqUserInfo = () => ajax('/api/userinfo')
+// 退出登陆
+export const reqLogout = () => ajax('/api/logout')
+/**
+ * 获取商家信息
+ */
+export const reqShopInfo = () => ajax('/info')
+
+/**
+ * 获取商家评价数组
+ */
+export const reqShopRatings = () => ajax('/ratings')
+
+/**
+ * 获取商家商品数组
+ */
+export const reqShopGoods = () => ajax('/goods')

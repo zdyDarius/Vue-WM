@@ -20,7 +20,7 @@
               </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码">
+              <input type="tel" maxlength="8" placeholder="验证码" v-model="code">
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -30,22 +30,23 @@
           <div :class="{on:!loginway}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" v-model="name">
               </section>
               <section class="login_verification">
-                <input :type="isShowpwd?'text':'password'" maxlength="8" placeholder="密码">
+                <input :type="isShowpwd?'text':'password'" maxlength="8" placeholder="密码" v-model="pwd">
                 <div class="switch_button " :class="isShowpwd? 'on' :'off'" @click="isShowpwd=!isShowpwd">
                   <div class="switch_circle" :class="{right:isShowpwd}" ></div>
                   <span class="switch_text">{{isShowpwd?'abc':' '}}</span>
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
+                <img class="get_verification" src="http://localhost:5000/captcha"
+                     alt="captcha" @click="changecaptcha">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -57,19 +58,25 @@
 </template>
 
 <script>
+  import {reqsendcode,reqphonelogin,reqpwdlogin} from '../../api'
+  import {Toast, MessageBox } from 'mint-ui'
   export default {
 
     data () {
       return {
-        loginway:true,//true:登入 false:账号登入
-        phoneunmber:'',
-        computeTime: 0,
-        isShowpwd:false,
+        loginway:true,  // true:短信登入 false:账号登入
+        phoneunmber:'', // 电话号码
+        code:'',        // 短信验证码
+        computeTime: 0, // 计数时间
+        isShowpwd:false, //是否显示密码
+        name:'',
+        pwd:'',
+        captcha:''
       }
 
     },
-    methods:{
-      sendCode(){
+   methods:{
+     async sendCode(){
         this.computeTime=30
         const timer=setInterval(()=>{
           this.computeTime--
@@ -78,7 +85,22 @@
             clearInterval(timer)
           }
         },1000)
-      }
+       const result=await reqsendcode(this.phoneunmber)
+       if(result.code===0){
+         Toast('短信已发送')
+       }else {
+          this.computeTime=0
+         MessageBox.alert(result.msg,'提示')
+       }
+      },
+     changecaptcha(ev){
+        ev.target.src='http://localhost:5000/captcha?'+Date.now()
+      },
+     async login(){
+        if(loginway){
+ 
+        }
+     }
     },
     computed:{
         rightPhone(){

@@ -32,18 +32,18 @@ export default {
       commit(SAVE_USER,{user:result.data})
     }
   },
-  async getShopInfo({commit}, cb) {
+  async getShopInfo({commit}, ) {
     const result = await reqShopInfo()
     if(result.code===0) {
       const info = result.data
       info.score = 3.5
       commit(RECEIVE_INFO, {info})
-  
+     
     }
   },
 
 // 异步获取商家评价列表
-  async getShopRatings({commit}, cb) {
+  async getShopRatings({commit}) {
     const result = await reqShopRatings()
     if(result.code===0) {
       const ratings = result.data
@@ -58,6 +58,7 @@ export default {
     if(result.code===0) {
       const goods = result.data
       commit(RECEIVE_GOODS, {goods})
+      typeof cb==='function'&&cb()
     }
   },
 }

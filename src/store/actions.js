@@ -1,7 +1,7 @@
 /**
  * Created by zdy on 2018/11/19.
  */
-import {GET_ADDRESS,GET_CATEGORYS,GET_ShOPS,SAVE_USER,RESET_USER,RECEIVE_GOODS,RECEIVE_INFO,RECEIVE_RATINGS} from './mutations-type'
+import {GET_ADDRESS,GET_CATEGORYS,GET_ShOPS,SAVE_USER,RESET_USER,RECEIVE_GOODS,RECEIVE_INFO,RECEIVE_RATINGS,UPDATA_FOOD_COUNT,CLEAR_CART_FOODS} from './mutations-type'
 import {reqAddress,reqFoodCateGorys,reqshops,reqLogout,reqUserInfo,reqShopGoods,reqShopRatings,reqShopInfo} from '../api'
 export default {
   async getAddress({commit,state}){
@@ -61,4 +61,10 @@ export default {
       typeof cb==='function'&&cb()
     }
   },
+  updataFoodCount({commit},foodinfo){
+    commit(UPDATA_FOOD_COUNT,foodinfo)
+  },
+  clearCartFoods({commit}){
+    commit(CLEAR_CART_FOODS)
+  }
 }

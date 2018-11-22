@@ -30,7 +30,7 @@
                     <span class="now">￥{{food.price}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                    CartControl组件
+                    <CartControl :food="food"></CartControl>
                   </div>
                 </div>
               </li>
@@ -39,12 +39,15 @@
 
         </ul>
       </div>
+      <ShopCart></ShopCart>
     </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
   import BScroll from 'better-scroll'
+  import CartControl from '../../../components/CartControl/CartControl.vue'
+  import ShopCart from '../../../components/ShopCart/ShopCart.vue'
   export default {
    mounted(){
      this.$store.dispatch('getShopGoods',()=>{
@@ -79,7 +82,7 @@
         })
         this.rightScroll.on('scrollEnd',({x,y})=>{
           this.scrollY=Math.abs(y)
-          console.log(y)
+
         })
       },
       _initTop(){
@@ -114,6 +117,10 @@
         }
         return index
       }
+    },
+    components:{
+      CartControl,
+      ShopCart
     }
   }
 </script>

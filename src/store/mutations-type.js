@@ -16,3 +16,7 @@ export const RECEIVE_GOODS = 'receive_goods' // 接收商品数组
 export const RECEIVE_RATINGS = 'receive_ratings' // 接收商家评价数组
 
 export const RECEIVE_INFO = 'receive_info' // 接收商家信息
+
+export const UPDATA_FOOD_COUNT='updata_food_count'//更新食物数量
+
+export const CLEAR_CART_FOODS='clear_acrt_foods'//清楚购物车食物

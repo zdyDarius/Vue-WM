@@ -15,7 +15,8 @@
           <li class="food-list-hook"  v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px"  v-for="(food,index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px"  v-for="(food,index) in good.foods"
+                  :key="index" @click="getfood(food)">
                 <div class="icon">
                   <img width="57" height="57"
                        :src="food.icon">
@@ -39,6 +40,7 @@
 
         </ul>
       </div>
+      <Food :food="food" ref="food"></Food>
       <ShopCart></ShopCart>
     </div>
 </template>
@@ -48,6 +50,7 @@
   import BScroll from 'better-scroll'
   import CartControl from '../../../components/CartControl/CartControl.vue'
   import ShopCart from '../../../components/ShopCart/ShopCart.vue'
+  import Food from '../../../components/Food/Food.vue'
   export default {
    mounted(){
      this.$store.dispatch('getShopGoods',()=>{
@@ -58,13 +61,13 @@
              this._initTop()
            })
      })
-      new BScroll('.menu-wrapper',{})
-      new BScroll('.foods-wrapper',{})
+
    },
     data () {
       return {
         tops:[],
-        scrollY:0
+        scrollY:0,
+        food:{}
       }
     },
     methods:{
@@ -101,7 +104,13 @@
         this.scrollY=this.tops[index]
         this.rightScroll.scrollTo(0,-this.scrollY, 500)
 
+      },
+      getfood(food){
+        this.food=food
+
+        this.$refs.food.toggleIsShow()
       }
+
     },
 
     computed:{
@@ -120,7 +129,8 @@
     },
     components:{
       CartControl,
-      ShopCart
+      ShopCart,
+      Food
     }
   }
 </script>

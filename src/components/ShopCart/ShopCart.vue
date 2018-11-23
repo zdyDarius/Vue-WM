@@ -1,48 +1,56 @@
 <template>
   <div>
-    <div class="shopcart">
-      <div class="content">
-        <div class="content-left" @click="toggleShow">
-          <div class="logo-wrapper">
-            <div class="logo " :class="{highlight: totalCount}">
-              <i class="iconfont icon-shopping_cart " :class="{highlight: totalCount}"></i>
-            </div>
-            <div class="num" v-if="totalCount">{{totalCount}}</div>
-          </div>
-          <div class="price" :class="{highlight: totalCount}">￥{{totalPrice}}</div>
-          <div class="desc">另需配送费￥{{info.deliveryPrice}}元</div>
-        </div>
-        <div class="content-right">
-          <div class="pay " :class="totalPrice>=info.minPrice?'enough':'not-enough'">
-            {{payText}}
-          </div>
-        </div>
-      </div>
-      <div class="shopcart-list" v-show="isShow">
-        <div class="list-header">
-          <h1 class="title">购物车</h1>
-          <span class="empty" @click="clearCartFoods">清空</span>
-        </div>
-        <div class="list-content">
-          <ul>
-            <li class="food" v-for="(food,index) in cartfoods " :key="index">
-              <span class="name">{{food.name}}</span>
-              <div class="price"><span>￥{{food.price}}</span></div>
-              <div class="cartcontrol-wrapper">
-                <CartControl :food="food"></CartControl>
+      <div class="shopcart">
+        <div class="content">
+          <div class="content-left" @click="toggleShow">
+            <div class="logo-wrapper">
+              <div class="logo " :class="{highlight: totalCount}">
+                <i class="iconfont icon-shopping_cart " :class="{highlight: totalCount}"></i>
               </div>
-            </li>
-          </ul>
+              <div class="num" v-if="totalCount">{{totalCount}}</div>
+            </div>
+            <div class="price" :class="{highlight: totalCount}">￥{{totalPrice}}</div>
+            <div class="desc">另需配送费￥{{info.deliveryPrice}}元</div>
+          </div>
+          <div class="content-right">
+            <div class="pay " :class="totalPrice>=info.minPrice?'enough':'not-enough'">
+              {{payText}}
+            </div>
+          </div>
         </div>
+        <transition name="shopcart">
+        <div class="shopcart-list" v-show="isShow">
+          <div class="list-header">
+            <h1 class="title">购物车</h1>
+            <span class="empty" @click="clearCartFoods">清空</span>
+          </div>
+          <div class="list-content">
+            <ul>
+              <li class="food" v-for="(food,index) in cartfoods " :key="index">
+                <span class="name">{{food.name}}</span>
+                <div class="price"><span>￥{{food.price}}</span></div>
+                <div class="cartcontrol-wrapper">
+                  <CartControl :food="food"></CartControl>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        </transition>
       </div>
-    </div>
-    <div class="list-mask" v-show="isShow" @click="toggleShow"></div>
+
+    <transition name="mask">
+      <div class="list-mask" v-show="isShow" @click="toggleShow"></div>
+    </transition>
+
   </div>
 </template>
 
 <script>
   import CartControl from '../CartControl/CartControl.vue'
   import {mapState,mapGetters} from 'vuex'
+  import BScroll from 'better-scroll'
+
   export default {
 
     data () {
@@ -69,6 +77,17 @@
              this.isShowa=false
              return false
            }
+           this.$nextTick(()=>{
+             if(this.isShowa){
+               if(!this.scroll){
+                   this.scroll = new BScroll('.list-content',{
+                   click:true
+                   })
+                 }else{
+                  this.scroll.refresh()
+                }
+             }
+           })
            return this.isShowa
          },
       }
@@ -187,6 +206,10 @@
       z-index: -1
       width: 100%
       transform translateY(-100%)
+      &.shopcart-enter-active, &.shopcart-leave-active
+        transition transform  .8s
+      &.shopcart-enter, &.shopcart-leave-to
+        transform translateY(0)
       .list-header
         height: 40px
         line-height: 40px
@@ -239,8 +262,8 @@
     backdrop-filter: blur(10px)
     opacity: 1
     background: rgba(7, 17, 27, 0.6)
-    &.fade-enter-active, &.fade-leave-active
-      transition: all 0.5s
-    &.fade-enter, &.fade-leave-to
-      opacity: 0
+    &.mask-enter-active, &.mask-leave-active
+      transition opacity .8s
+    &.mask-enter, &.mask-leave-to
+      opacity 0
 </style>

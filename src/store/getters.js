@@ -12,5 +12,13 @@ export default{
     return state.cartfoods.reduce((pre,food)=>{
       return pre+food.count*food.price
     },0)
+  },
+  positiveRatingsCount(state){
+    return state.ratings.reduce((pre,rating)=>{
+      return pre+(rating.rateType===0?1:0)
+    },0)
+  },
+  ratingsCount(state){
+    return state.ratings.length
   }
 }

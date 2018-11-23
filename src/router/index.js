@@ -4,10 +4,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import MSide from '../pages/MSide/MSide.vue'
-import Order from '../pages/Order/Order.vue'
-import Profile from  '../pages/Profile/Profile.vue'
-import Search from '../pages/Search/Search.vue'
+// import MSide from '../pages/MSide/MSide.vue'
+// import Order from '../pages/Order/Order.vue'
+// import Profile from  '../pages/Profile/Profile.vue'
+// import Search from '../pages/Search/Search.vue'
+const MSide =()=>import('../pages/MSide/MSide.vue')
+const Order =()=>import('../pages/Order/Order.vue')
+const Profile =()=>import('../pages/Profile/Profile.vue')
+const Search =()=>import('../pages/Search/Search.vue')
+
 import Login from '../pages/Login/Login.vue'
 import Shop from '../pages/Shop/Shop.vue'
 import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods.vue'
@@ -58,12 +63,12 @@ export default new VueRouter({
           component:ShopGoods
         },
         {
-          path:'/shop/shopinfo',
-          component:ShopInfo
-        },
-        {
           path:'/shop/shopratings',
           component:ShopRatings
+        },
+        {
+          path:'/shop/shopinfo',
+          component: ShopInfo
         },
         {
           path:'',

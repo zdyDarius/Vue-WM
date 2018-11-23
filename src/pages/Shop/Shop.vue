@@ -6,14 +6,17 @@
         <router-link to="/shop/shopgoods" replace>点餐</router-link>
       </div>
       <div class="tab-item">
-        <router-link to="/shop/shopinfo" replace>评价</router-link>
+        <router-link to="/shop/shopratings" replace>评价</router-link>
       </div>
       <div class="tab-item">
-        <router-link to="/shop/shopratings" replace>商家</router-link>
+        <router-link to="/shop/shopinfo" replace>商家</router-link>
       </div>
 
     </div>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+
   </div>
 
 </template>
@@ -24,6 +27,7 @@
   export default {
     mounted(){
       this.$store.dispatch('getShopInfo')
+      this.$store.dispatch('getShopRatings')
 
     },
     data () {

@@ -22,7 +22,7 @@
           scs.push('on')
         }
         //scs 中添加half
-        if(score*10-scoreInteger*10>0.5){
+        if(score*10-scoreInteger*10>5){
           scs.push('half')
         }
         //scs 中添加off
